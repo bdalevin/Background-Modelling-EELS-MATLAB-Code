@@ -48,15 +48,16 @@ Scalefactor = 1; % VERY IMPORTANT. DEFINE THE SCALE FACTOR FOR BACKGROUND SUBTRA
 
 % Define the sizes of the windows for background fitting
 %Windows = [Channel0+25,Channel0+40,Channel0+230,Channel0+290];
-%Windows = [Channel0+50,Channel0+85,Channel0+220,Channel0+280];
-Windows = [Channel0+14,Channel0+18,Channel0+90,Channel0+120];
+% Windows = [Channel0+50,Channel0+85,Channel0+220,Channel0+280];
+% Windows = [Channel0+14,Channel0+18,Channel0+90,Channel0+120];
+Windows = [Channel0+14,Channel0+18,Channel0+45,Channel0+62];
 EN1 = EN(Windows(1):Windows(2));
 EN2 = EN(Windows(3):Windows(4));
 
 % Choose spectra to view in plots
 PlotBuffer = 20; % Choose how far (in pixels) beyond your windows you would like to plot data. 
-Viewspec1 = 29;
-Viewspec2 = 50;
+Viewspec1 = 2;
+Viewspec2 = 5;
 
 % Specify fit parameters
 LFrac = 0.2; % Initial Guess for the Lorentzian fraction of the function. 
@@ -110,9 +111,9 @@ fitEN = cat(2,EN1,EN2);
 
 %Fit Gaussian plus Lorentzian to the peaks.
 func= @(C,x)C(1)*(1-C(2))*exp(-(((x-C(3))/C(4)).^2))+lorentz(x,C(1)*(C(2)),C(3),C(5))+C(6);
-C1 = [max(FitSpec),  LFrac,   E0,            GaussFWHM/2.355,            LorentzFWHM/2, median(fitwin2)]; % Initial guesses for the fit parameters
-lb = [max(FitSpec)/10,  0, E0-E0Var,  (GaussFWHM-FWHMVar)/2.355,  (LorentzFWHM-FWHMVar)/2, -Inf]; % Lower bounds for the fit parameters
-ub = [Inf, 1, E0+E0Var,  (GaussFWHM+FWHMVar)/2.355,  (LorentzFWHM+FWHMVar)/2, Inf]; % Upper bounds for the fit parameters 
+C1 = [max(FitSpec),  LFrac,   E0,            GaussFWHM*0.6,            LorentzFWHM/2, median(fitwin2)]; % Initial guesses for the fit parameters
+lb = [max(FitSpec)/10,  0, E0-E0Var,  (GaussFWHM-FWHMVar)*0.6,  (LorentzFWHM-FWHMVar)/2, -Inf]; % Lower bounds for the fit parameters
+ub = [Inf, 1, E0+E0Var,  (GaussFWHM+FWHMVar)*0.6,  (LorentzFWHM+FWHMVar)/2, Inf]; % Upper bounds for the fit parameters 
 FR = linspace(fitEN(1),fitEN(end));
 %figure(1);
 ft = lsqcurvefit(func,C1,fitEN,fitwin, lb, ub, options); % Fit Curve to data.
