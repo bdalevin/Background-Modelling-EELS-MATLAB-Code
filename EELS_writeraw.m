@@ -1,10 +1,8 @@
 function fullfilename = EELS_writeraw(III,varargin)
 % function fullfilename = writeraw(II,filename)
 % writeraw, writeraw(II) or writeraw(II,filename)
-% this function write a input matrix into a binary format .dat file
-% II = matrix that u want to write out
-% filename = the name u want to name it
-% by Huolin Xin
+% Based on writeraw MATLAB code by Huolin Xin
+% Modified by Barnaby Levin
 
 if nargin==0
     varlist = evalin('base','who');
@@ -41,6 +39,6 @@ end
 fullfilename=fullfile(dirname,[filename,'_',suffix,'_32BitReal.dat']);
 
 fp=fopen(fullfilename,'w');
-fwrite(fp,II,'float'); % This will output 32 bit data. Reason 16 bit not used is data does not look good. 
+fwrite(fp,II,'float'); % This will output 32 bit data.
 fclose(fp);
 
